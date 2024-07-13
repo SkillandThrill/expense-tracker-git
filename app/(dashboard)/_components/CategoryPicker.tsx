@@ -7,6 +7,7 @@ import React from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { Command, CommandInput } from '@/components/ui/command'
+import CreateCategoryDialogue from './CreateCategoryDialogue'
 
 interface Props{
     type: TransactionType
@@ -51,6 +52,7 @@ function CategoryPicker({type}:Props) {
           e.preventDefault()
         }}>
           <CommandInput placeholder='Search category...'/>
+          <CreateCategoryDialogue type={type}/>
         </Command>
       </PopoverContent>
     </Popover>

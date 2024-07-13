@@ -27,6 +27,10 @@ export async function GET(request: Request){
         where:{
             userId: user.id,
             ...(type && {type})
-        }
-    })
+        },
+        orderBy:{
+            name:"asc"
+        },
+    });
+    return Response.json(categories)
 }

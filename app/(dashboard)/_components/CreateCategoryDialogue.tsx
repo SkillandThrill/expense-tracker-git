@@ -19,6 +19,7 @@ import data from "@emoji-mart/data"
 import { useMutation, QueryClient, useQueryClient } from '@tanstack/react-query';
 import { CreateCategory } from '../_actions/categories';
 import { toast } from 'sonner';
+import { useTheme } from 'next-themes';
 
 interface Props{
     type: TransactionType;
@@ -37,6 +38,8 @@ function CreateCategoryDialogue({type,successCallback}:Props) {
     })
 
     const QueryClient =  useQueryClient();
+
+    const theme = useTheme()
 
     const {mutate, isPending} = useMutation({
         mutationFn: CreateCategory,
@@ -111,10 +114,10 @@ function CreateCategoryDialogue({type,successCallback}:Props) {
                                     Name
                                 </FormLabel>
                                 <FormControl>
-                                    <Input defaultValue={""}{...field}/>
+                                    <Input placeholder='Category'{...field}/>
                                 </FormControl>
                                 <FormDescription>
-                                    Transaction description (optional)
+                                    This is how your category will appear in the app
                                 </FormDescription>
                             </FormItem>
                         )}
@@ -148,6 +151,7 @@ function CreateCategoryDialogue({type,successCallback}:Props) {
                                         <PopoverContent className='w-full'>
                                             <Picker
                                                 data={data}
+                                                theme={theme.resolvedTheme}
                                                 onEmojiSelect={(emoji:{native:string}) =>{
                                                     field.onChange(emoji.native)
                                                 }}

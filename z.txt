@@ -1,1 +1,0 @@
-to find the existing category added commandEmpty ui-component within categoryPicker component.. after that added commandGroup and commandList ui-component within that mapped the categoriesValue with category and gave key to commandItem name to show the category name in the list..

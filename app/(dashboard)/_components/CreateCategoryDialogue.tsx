@@ -22,10 +22,11 @@ import { toast } from 'sonner';
 
 interface Props{
     type: TransactionType;
+    successCallback:(category:Category) => void;
 
 }
 
-function CreateCategoryDialogue({type}:Props) {
+function CreateCategoryDialogue({type,successCallback}:Props) {
 
     const [open, setOpen] =useState(false);
     const form = useForm<CreateCategorySchemaType>({
@@ -48,6 +49,10 @@ function CreateCategoryDialogue({type}:Props) {
             toast.success(`Category ${data.name} created successfully 🎉`,{
                 id:"create-category",
             });
+
+            successCallback(data);
+
+
             await QueryClient.invalidateQueries({
                 queryKey:["categories"],
             });

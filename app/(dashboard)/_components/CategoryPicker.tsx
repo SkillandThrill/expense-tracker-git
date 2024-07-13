@@ -3,7 +3,7 @@
 import { TransactionType } from '@/lib/types'
 import { useQuery } from '@tanstack/react-query'
 import { Category } from '@prisma/client'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
@@ -13,13 +13,18 @@ import { cn } from '@/lib/utils'
 
 interface Props{
     type: TransactionType
+    onChange:(value:string)=> void ;
 }
 
-function CategoryPicker({type}:Props) {
+function CategoryPicker({type, onChange}:Props) {
 
   const [open,setOpen] = React.useState(false);
   const [value,setValue] = React.useState("");
 
+  useEffect(()=>{
+    if(!value) return;
+    onChange(value) //when the value changes, call the onChange callback  
+  },[onChange,value])
 
   const categoriesQuery = useQuery({
     queryKey:["categories",type],

@@ -144,7 +144,7 @@ function CreateTransactionDialogue({trigger, type}: Props) {
                         control={form.control}
                         name='category'
                         render={({field})=>(
-                            <FormItem>
+                            <FormItem className='flex flex-col'>
                                 <FormLabel>
                                     Category
                                 </FormLabel>
@@ -162,7 +162,7 @@ function CreateTransactionDialogue({trigger, type}: Props) {
                         control={form.control}
                         name='date'
                         render={({field})=>(
-                            <FormItem>
+                            <FormItem  className='flex flex-col'>
                                 <FormLabel>
                                     Transaction date
                                 </FormLabel>

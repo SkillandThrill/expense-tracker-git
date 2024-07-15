@@ -1,7 +1,7 @@
 "use client"
 
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter,DialogClose } from '@/components/ui/dialog';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { TransactionType, } from "@/lib/types";
 import { cn } from '@/lib/utils';
@@ -157,14 +157,29 @@ function CreateTransactionDialogue({trigger, type}: Props) {
                                 <FormDescription>
                                     Select a date for this transaction
                                 </FormDescription>
+                                <FormMessage/>
                             </FormItem>
                         )}
                     />
-
                     </div>
                 </form>
             </Form>
 
+            <DialogFooter>
+                <DialogClose 
+                    asChild
+                >
+                    <Button type='button' variant={"secondary"} onClick={() => {
+                        form.reset();
+                        }}>
+                        Cancel
+                    </Button>
+                </DialogClose>
+                <Button onClick={form.handleSubmit(onSubmit)} disabled={isPending}>
+                    {!isPending && "Create"}
+                    {isPending && <Loader2 className='animate-spin'/>}
+                </Button>
+            </DialogFooter>
         </DialogContent>
     </Dialog>
   )

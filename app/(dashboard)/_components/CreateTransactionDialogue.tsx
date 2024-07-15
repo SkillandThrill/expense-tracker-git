@@ -9,6 +9,7 @@ import { CreateTransactionSchema, CreateTransactionSchemaType } from '@/schema/t
 import {zodResolver} from "@hookform/resolvers/zod"
 import CategoryPicker from './CategoryPicker';
 import { ReactNode, useCallback } from "react"
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 interface Props {
     trigger:ReactNode;
@@ -17,6 +18,10 @@ interface Props {
 
 import React from 'react'
 import { useForm } from 'react-hook-form';
+import { Button } from '@/components/ui/button';
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
 
 function CreateTransactionDialogue({trigger, type}: Props) {
 
@@ -34,6 +39,7 @@ function CreateTransactionDialogue({trigger, type}: Props) {
 
   return (
     <Dialog>
+
         <DialogTrigger asChild>
             {trigger}
         </DialogTrigger>
@@ -106,6 +112,55 @@ function CreateTransactionDialogue({trigger, type}: Props) {
                             </FormItem>
                         )}
                     />
+
+                    <FormField
+                        control={form.control}
+                        name='date'
+                        render={({field})=>(
+                            <FormItem>
+                                <FormLabel>
+                                    Transaction date
+                                </FormLabel>
+                                <Popover>
+                                    <PopoverTrigger 
+                                        asChild
+                                    >
+                                        <FormControl>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    'w-[200px] pl-3 text-left font-normal',
+                                                    !field.value && "text-muted-foreground"
+                                                )}
+                                            >
+                                                {field.value ? (
+                                                    format(field.value, "PPP")
+                                                ):(
+                                                    <span>
+                                                        Pick a date
+                                                    </span>
+                                                )}
+                                                <CalendarIcon className='ml-auto h-4 w-4 opacity-50'/>
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className='w-auto p-0'>
+                                            <Calendar 
+                                                mode='single'
+                                                selected={field.value}
+                                                onSelect={field.onChange}
+                                                initialFocus
+                                            />
+
+                                    </PopoverContent>
+                                </Popover>
+                                <FormDescription>
+                                    Select a date for this transaction
+                                </FormDescription>
+                            </FormItem>
+                        )}
+                    />
+
                     </div>
                 </form>
             </Form>

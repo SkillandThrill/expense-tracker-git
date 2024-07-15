@@ -10,6 +10,7 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import CategoryPicker from './CategoryPicker';
 import { ReactNode, useCallback } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Loader2 } from 'lucide-react';
 
 interface Props {
     trigger:ReactNode;
@@ -22,6 +23,9 @@ import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
+import { useMutation } from '@tanstack/react-query';
+import { CreateTransaction } from '../_actions/transactions';
+import { toast } from 'sonner';
 
 function CreateTransactionDialogue({trigger, type}: Props) {
 
@@ -36,6 +40,16 @@ function CreateTransactionDialogue({trigger, type}: Props) {
     const handleCategoryChange = useCallback( (value : string) =>{
         form.setValue("category",value);
     },[form]);
+
+    const {mutate,isPending} = useMutation({
+        mutationFn: CreateTransaction,
+        onSuccess: ()=>{
+            toast.success("Transaction created successfully 🎉",{
+                id: "create-transaction",
+            })
+        }
+    })
+
 
   return (
     <Dialog>

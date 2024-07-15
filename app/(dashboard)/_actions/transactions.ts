@@ -47,9 +47,61 @@ await prisma.$transaction([
         },
     }),
 
-    //update aggregates table
-    
-])
+    //update  month aggregates table
 
+    prisma.monthHistory.upsert({
+        where:{
+            day_month_Year_userId: {
+                userId :user.id,
+                day:date.getUTCDate(),
+                month:date.getUTCMonth(),
+                Year:date.getUTCFullYear(),
+            },
+        },
+        create:{
+            userId :user.id,
+            day : date.getUTCDate(),
+                month : date.getUTCMonth(),
+                Year : date.getUTCFullYear(),
+                expense : type === "expense" ? amount : 0,
+                income : type === "income" ? amount : 0,
+        },
+        update:{
+            expense:{
+                increment: type === "expense" ? amount : 0,
+            },
+            income:{
+                increment: type === "income" ? amount : 0,
+            },
+        },
+    }),
+
+    //update year aggregate
+    prisma.yearHistory.upsert({
+        where:{
+            month_Year_userId: {
+                userId :user.id,
+                month:date.getUTCMonth(),
+                Year:date.getUTCFullYear(),
+            },
+        },
+        create:{
+            userId :user.id,
+                month : date.getUTCMonth(),
+                Year : date.getUTCFullYear(),
+                expense : type === "expense" ? amount : 0,
+                income : type === "income" ? amount : 0,
+        },
+        update:{
+            expense:{
+                increment: type === "expense" ? amount : 0,
+            },
+            income:{
+                increment: type === "income" ? amount : 0,
+            },
+        },
+    })
+
+])
 
 }

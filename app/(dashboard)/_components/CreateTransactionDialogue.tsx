@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { CreateTransactionSchema, CreateTransactionSchemaType } from '@/schema/transaction ';
 import {zodResolver} from "@hookform/resolvers/zod"
 import CategoryPicker from './CategoryPicker';
-import { ReactNode, useCallback } from "react"
+import { ReactNode, useCallback, useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Loader2 } from 'lucide-react';
 
@@ -23,9 +23,11 @@ import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, QueryClient, useQueryClient } from '@tanstack/react-query';
 import { CreateTransaction } from '../_actions/transactions';
 import { toast } from 'sonner';
+import { DateToUTCDate } from '@/lib/helpers';
+import { date } from 'zod';
 
 function CreateTransactionDialogue({trigger, type}: Props) {
 
@@ -37,23 +39,52 @@ function CreateTransactionDialogue({trigger, type}: Props) {
         }
     })
 
+    const [open,setOpen] = useState(false)
+
     const handleCategoryChange = useCallback( (value : string) =>{
         form.setValue("category",value);
     },[form]);
+
+    const QueryClient = useQueryClient()
+
 
     const {mutate,isPending} = useMutation({
         mutationFn: CreateTransaction,
         onSuccess: ()=>{
             toast.success("Transaction created successfully 🎉",{
                 id: "create-transaction",
+            });
+            form.reset({
+                type,
+                description:"",
+                amount:0,
+                date: new Date(),
+                category:undefined,
+            });
+
+            // after crating a transaction, we need to invalidate the overview query which will refetch data in the home page
+            QueryClient.invalidateQueries({
+                queryKey:["overview"]
             })
-        }
-    })
+
+            setOpen(prev => !prev)
+        },
+    });
+
+    const onSubmit =useCallback((values:CreateTransactionSchemaType) =>{
+        toast.loading("Creating transaction...",{
+            id:"create-transaction"
+        });
+
+        mutate({
+            ...values,
+            date:DateToUTCDate(values.date),
+        })
+    },[mutate])
 
 
   return (
-    <Dialog>
-
+    <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
             {trigger}
         </DialogTrigger>
@@ -70,7 +101,7 @@ function CreateTransactionDialogue({trigger, type}: Props) {
                 </DialogTitle>
             </DialogHeader>
             <Form {...form}>
-                <form className='space-y-4'>
+                <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField
                         control={form.control}
                         name='description'

@@ -1,6 +1,6 @@
 "use client"
 
-
+import StatsCards from './StatsCards';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 import { MAX_DATE_RANGE_DAYS } from '@/lib/constants';
 import { UserSettings } from '@prisma/client'
@@ -39,6 +39,11 @@ const [dateRange, setDateRange] = useState<{from:Date; to:Date}>({
                 />
             </div>
         </div>
+        <StatsCards
+            userSettings={userSettings}
+            from={dateRange.from}
+            to={dateRange.to}
+        />
     </>
   )
 

@@ -194,6 +194,7 @@ function CreateTransactionDialogue({trigger, type}: Props) {
                                                 mode='single'
                                                 selected={field.value}
                                                 onSelect={value =>{
+                                                    if(!value) return ;
                                                     console.log("@@CALENDAR", value)
                                                     field.onChange(value)
                                                 }}

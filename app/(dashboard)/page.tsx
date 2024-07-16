@@ -4,6 +4,7 @@ import React from 'react'
 import prisma from '@/lib/prisma';
 import { Button } from '@/components/ui/button';
 import CreateTransactionDialogue from './_components/CreateTransactionDialogue';
+import Overview from './_components/Overview';
 
 async function page() {
   const user = await currentUser();;
@@ -43,6 +44,7 @@ async function page() {
           </div>
         </div>
       </div>
+      <Overview userSettings={userSettings}/>
     </div>
   )
 }

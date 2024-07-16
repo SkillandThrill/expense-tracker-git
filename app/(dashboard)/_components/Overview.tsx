@@ -39,11 +39,13 @@ const [dateRange, setDateRange] = useState<{from:Date; to:Date}>({
                 />
             </div>
         </div>
+        <div className="container flex w-full flex-col gap-2">
         <StatsCards
             userSettings={userSettings}
             from={dateRange.from}
             to={dateRange.to}
         />
+        </div>
     </>
   )
 

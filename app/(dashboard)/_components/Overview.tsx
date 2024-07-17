@@ -7,6 +7,7 @@ import { UserSettings } from '@prisma/client'
 import { differenceInDays, startOfMonth } from 'date-fns';
 import React, { useState } from 'react'
 import { toast } from 'sonner';
+import CategoriesStats from './CategoriesStats';
 
 function Overview({userSettings}:{userSettings: UserSettings}) {
 const [dateRange, setDateRange] = useState<{from:Date; to:Date}>({
@@ -45,11 +46,15 @@ const [dateRange, setDateRange] = useState<{from:Date; to:Date}>({
             from={dateRange.from}
             to={dateRange.to}
         />
+
+        <CategoriesStats
+            userSettings={userSettings}
+            from={dateRange.from}
+            to={dateRange.to}
+        />
         </div>
     </>
   )
-
-  
 }
 
 export default Overview

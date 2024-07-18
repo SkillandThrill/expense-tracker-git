@@ -8,6 +8,7 @@ import { GetFormatterForCurrency } from '@/lib/helpers';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import HistoryPeriodSelector from './HistoryPeriodSelector';
+import { useQuery } from '@tanstack/react-query';
 
 function History({userSettings}:{userSettings:UserSettings}) {
 
@@ -20,6 +21,13 @@ function History({userSettings}:{userSettings:UserSettings}) {
     const formatter  = useMemo(()=>{
         return GetFormatterForCurrency(userSettings.currency)
     },[userSettings.currency]);
+
+    const historyDataQuery = useQuery({
+        queryKey:["overview","history", timeframe,period],
+        queryFn: () => fetch(`/api/history-data?timeframe=${timeframe}&year=${period.year}&month=${period.month}`).then(res => res.json())
+    })
+
+    const dataAvailable = historyDataQuery.data && historyDataQuery.data.length > 0
 
   return (
     <div className='container'>

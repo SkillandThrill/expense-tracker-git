@@ -10,7 +10,15 @@ import { Badge } from '@/components/ui/badge';
 import HistoryPeriodSelector from './HistoryPeriodSelector';
 import { useQuery } from '@tanstack/react-query';
 import SkeletonWrapper from '@/components/SkeletonWrapper';
-
+import {
+    Bar,
+    BarChart,
+    CartesianGrid,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts"
 
 function History({userSettings}:{userSettings:UserSettings}) {
 

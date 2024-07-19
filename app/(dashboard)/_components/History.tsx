@@ -161,7 +161,7 @@ function TooltipRow({
                 <div className={cn(
                     "text-sm font-bold",textColor
                 )}>
-                    <CountUp duration={0.5} preserveValue end={value} decimals={0} formattingFn={value => formatter.format(value)} className='text-sm'/>
+                    <CountUp duration={0.5} preserveValue end={value} decimals={0} formattingFn={formattingFn}className='text-sm'/>
                 </div>
             </div>
         </div>

@@ -64,7 +64,13 @@ function History({userSettings}:{userSettings:UserSettings}) {
 
             <CardContent>
                 <SkeletonWrapper isLoading={historyDataQuery.isFetching }>
-                    {dataAvailable &&(<div className="">CHART</div>)}
+                    {dataAvailable && <ResponsiveContainer width={"100%"} height={300}>
+                            <BarChart height={300} data={historyDataQuery.data} barCategoryGap={5}>
+                                <defs>
+
+                                </defs>
+                            </BarChart>
+                        </ResponsiveContainer>}
                     {!dataAvailable && (
                         <Card className='flex h-[300px] flex-col items-center justify-center bg-background'>
                             No data for selected period

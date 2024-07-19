@@ -5,10 +5,12 @@ import React, { useMemo, useState } from 'react'
 import { Timeframe } from '@/lib/types';
 import { Period } from '@/lib/types';
 import { GetFormatterForCurrency } from '@/lib/helpers';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import HistoryPeriodSelector from './HistoryPeriodSelector';
 import { useQuery } from '@tanstack/react-query';
+import SkeletonWrapper from '@/components/SkeletonWrapper';
+
 
 function History({userSettings}:{userSettings:UserSettings}) {
 
@@ -50,6 +52,21 @@ function History({userSettings}:{userSettings:UserSettings}) {
                     </div>
                 </CardTitle>
             </CardHeader>
+
+
+            <CardContent>
+                <SkeletonWrapper isLoading={historyDataQuery.isFetching }>
+                    {dataAvailable &&(<div className="">CHART</div>)}
+                    {!dataAvailable && (
+                        <Card className='flex h-[300px] flex-col items-center justify-center bg-background'>
+                            No data for selected period
+                            <p className='text-sm text-muted-foreground'>
+                                Try selecting a different period or adding new transactions
+                            </p>
+                        </Card>
+                    )}
+                </SkeletonWrapper>
+            </CardContent>
         </Card>
     </div>
   )

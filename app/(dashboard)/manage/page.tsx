@@ -8,6 +8,8 @@ import { Calendar } from '@/components/ui/calendar';
 import { TransactionType } from '@/lib/types';
 import { useQuery } from '@tanstack/react-query';
 import SkeletonWrapper from '@/components/SkeletonWrapper';
+import { TrendingDownIcon, TrendingUpIcon } from 'lucide-react';
+import CreateCategoryDialogue from '../_components/CreateCategoryDialogue';
 
 function page() {
   return (
@@ -55,8 +57,24 @@ function  CategoryList({type}:{type:TransactionType}){
     });
 
     return (
-        <SkeletonWrapper isLoading>
-
+        <SkeletonWrapper isLoading={categoriesQuery.isFetching}>
+            <Card>
+                <CardHeader>
+                    <CardTitle className='flex items-center justify-between gap-2'>
+                        <div className="flex items-center gap-2">
+                            {type === "expense" ? <TrendingDownIcon className='h-12 w-12 items-center rounded-lg bg-red-400/10 p-2 text-red-500'/> : <TrendingUpIcon className='h-12 w-12 items-center rounded-lg bg-emerald-400/10 p-2 text-emerald-500'/>}
+                        </div>
+                        <div className="">
+                            {type === "income" ? "Incomes" : "Expenses"} 
+                            categories
+                            <div className="text-sm text-muted-foreground">
+                                Sorted by name
+                            </div>
+                        </div>
+                        <CreateCategoryDialogue type={type} successCallback={()=> categoriesQuery.refetch()}/>
+                    </CardTitle>
+                </CardHeader>
+            </Card>
         </SkeletonWrapper>
     )
 }

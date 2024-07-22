@@ -133,7 +133,7 @@ function CategoryCard({category}:{category:Category}){
                 </span>
             </div>
             <DeleteCategoryDialog category={category} trigger={
-                <Button className='flex w-full border-separate items-center gap-2 rounded-t-none text-muted-foreground hover:bg-red-500/20' variant={"secondary"}>
+                <Button className='flex w-full border-separate font-bold items-center gap-2 rounded-t-none text-muted-foreground hover:bg-red-500/70' variant={"secondary"}>
                 <TrashIcon className='h-4 w-4'/>
                 Remove
             </Button>

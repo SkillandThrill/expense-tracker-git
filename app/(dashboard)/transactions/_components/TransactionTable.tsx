@@ -14,12 +14,14 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { GetTransactionHistoryResponseType } from '@/app/api/transactions-history/route';
+import SkeletonWrapper from '@/components/SkeletonWrapper';
 
 interface Props{
     from:Date;
     to:Date;
 }
 
+const emptyData :any[] =[];
 type TransactionHistoryRow = GetTransactionHistoryResponseType[0]
 
 
@@ -37,7 +39,7 @@ export const columns:ColumnDef<TransactionHistoryRow>[] =[
         ),
     },
 
-];
+];  
 
 function TransactionTable({from,to}:Props) {
 
@@ -45,11 +47,20 @@ function TransactionTable({from,to}:Props) {
         queryKey: ["transactions","history",from,to],
         queryFn: () => fetch(`/api/transactions-history?from=${DateToUTCDate(from)}&to=${DateToUTCDate(to)}`).then(res => res.json())
     })
-  return (
 
-    
-    <div>
-      
+    const table = useReactTable({
+        data:history.data || emptyData,
+        columns,
+        getCoreRowModel:getCoreRowModel(),
+    })
+  return (
+    <div className="w-full">
+        <div className="flex flex-wrap items-end justify-between gap-2 py-4"></div>
+        <SkeletonWrapper isLoading={history.isFetching}>
+            <Table>
+                hello
+            </Table>
+        </SkeletonWrapper>
     </div>
   )
 }

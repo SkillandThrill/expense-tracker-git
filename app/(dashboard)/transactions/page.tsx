@@ -5,6 +5,7 @@ import { DateRangePicker } from '@/components/ui/date-range-picker';
 import { differenceInDays, startOfMonth } from 'date-fns';
 import { MAX_DATE_RANGE_DAYS } from '@/lib/constants';
 import {toast} from "sonner"
+import TransactionTable from './_components/TransactionTable';
 
 function TransactionsPage() {
     const [dateRange,setDateRange] = useState<{from:Date; to : Date}>({
@@ -39,6 +40,9 @@ function TransactionsPage() {
                     }}
                 />
         </div>
+    </div>
+    <div className="container">
+        <TransactionTable from={dateRange.from} to={dateRange.to}/>
     </div>
   </>
   )

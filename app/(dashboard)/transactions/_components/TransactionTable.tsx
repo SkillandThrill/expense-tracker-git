@@ -2,7 +2,12 @@
 
 import React from 'react'
 
-function TransactionTable() {
+interface Props{
+    from:Date;
+    to:Date;
+}
+
+function TransactionTable({from,to}:Props) {
   return (
     <div>
       

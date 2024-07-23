@@ -13,6 +13,7 @@ function TransactionsPage() {
     })
 
   return (
+    <>
     <div className='border-b bg-card'>
         <div className="container flex items-center flex-wrap justify-between gap-6 py-8">
             <div className="">
@@ -39,6 +40,7 @@ function TransactionsPage() {
                 />
         </div>
     </div>
+  </>
   )
 }
 

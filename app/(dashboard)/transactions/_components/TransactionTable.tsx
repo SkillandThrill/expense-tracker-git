@@ -2,8 +2,8 @@
 
 import { DateToUTCDate } from '@/lib/helpers';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react'
-import {ColumnDef, flexRender,getCoreRowModel,useReactTable} from "@tanstack/react-table"
+import React, { useState } from 'react'
+import {ColumnDef, flexRender,getCoreRowModel,SortingState,useReactTable} from "@tanstack/react-table"
 import {
     Table,
     TableBody,
@@ -15,6 +15,7 @@ import {
   } from "@/components/ui/table"
 import { GetTransactionHistoryResponseType } from '@/app/api/transactions-history/route';
 import SkeletonWrapper from '@/components/SkeletonWrapper';
+import { DataTableColumnHeader } from '@/components/datatable/ColumnHeader';
 
 interface Props{
     from:Date;
@@ -30,6 +31,9 @@ type TransactionHistoryRow = GetTransactionHistoryResponseType[0]
 export const columns:ColumnDef<TransactionHistoryRow>[] =[
     {
         accessorKey: "category",
+        header:({column}) =>(
+            <DataTableColumnHeader column={column} title='Category'/>
+        ),
         cell:({row})=> (
             <div className='flex gap-2 capitalize'>
                 {row.original.categoryIcon}
@@ -44,6 +48,8 @@ export const columns:ColumnDef<TransactionHistoryRow>[] =[
 
 function TransactionTable({from,to}:Props) {
 
+    const [sorting,setSorting] = useState<SortingState>([])
+
     const history = useQuery<GetTransactionHistoryResponseType>({
         queryKey: ["transactions","history",from,to],
         queryFn: () => fetch(`/api/transactions-history?from=${DateToUTCDate(from)}&to=${DateToUTCDate(to)}`).then(res => res.json())
@@ -53,6 +59,9 @@ function TransactionTable({from,to}:Props) {
         data:history.data || emptyData,
         columns,
         getCoreRowModel:getCoreRowModel(),
+        state:{
+            sorting,
+        }
     })
   return (
     <div className="w-full">

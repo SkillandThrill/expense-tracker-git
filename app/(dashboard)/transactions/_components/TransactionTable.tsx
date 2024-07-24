@@ -3,7 +3,7 @@
 import { DateToUTCDate } from '@/lib/helpers';
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react'
-import {ColumnDef, flexRender,getCoreRowModel,SortingState,useReactTable} from "@tanstack/react-table"
+import {ColumnDef, flexRender,getCoreRowModel,getSortedRowModel,SortingState,useReactTable} from "@tanstack/react-table"
 import {
     Table,
     TableBody,
@@ -61,7 +61,9 @@ function TransactionTable({from,to}:Props) {
         getCoreRowModel:getCoreRowModel(),
         state:{
             sorting,
-        }
+        },
+        onSortingChange: setSorting,
+        getSortedRowModel : getSortedRowModel(),
     })
   return (
     <div className="w-full">

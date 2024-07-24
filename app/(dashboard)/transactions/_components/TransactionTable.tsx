@@ -56,7 +56,9 @@ function TransactionTable({from,to}:Props) {
     })
   return (
     <div className="w-full">
-        <div className="flex flex-wrap items-end justify-between gap-2 py-4"></div>
+        <div className="flex flex-wrap items-end justify-between gap-2 py-4">
+            TODO: Filters
+        </div>
         <SkeletonWrapper isLoading={history.isFetching}>
             <Table>
                 <TableHeader>

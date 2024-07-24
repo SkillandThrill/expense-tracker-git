@@ -22,6 +22,7 @@ interface Props{
 }
 
 const emptyData :any[] =[];
+
 type TransactionHistoryRow = GetTransactionHistoryResponseType[0]
 
 
@@ -58,7 +59,28 @@ function TransactionTable({from,to}:Props) {
         <div className="flex flex-wrap items-end justify-between gap-2 py-4"></div>
         <SkeletonWrapper isLoading={history.isFetching}>
             <Table>
-                hello
+                <TableHeader>
+                    {table.getHeaderGroups().map((headerGroup) =>(
+                        <TableRow key={headerGroup.id}>
+                            {headerGroup.headers.map((header) =>{
+                                return(
+                                    <TableHead key={header.id}>
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )
+                                        }
+                                    </TableHead>
+                                )
+                            })}
+                        </TableRow>
+                    ))}
+                </TableHeader>
+                <TableBody>
+                    
+                </TableBody>
             </Table>
         </SkeletonWrapper>
     </div>

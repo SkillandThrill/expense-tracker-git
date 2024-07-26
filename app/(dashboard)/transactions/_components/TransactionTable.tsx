@@ -16,6 +16,7 @@ import {
 import { GetTransactionHistoryResponseType } from '@/app/api/transactions-history/route';
 import SkeletonWrapper from '@/components/SkeletonWrapper';
 import { DataTableColumnHeader } from '@/components/datatable/ColumnHeader';
+import { cn } from '@/lib/utils';
 
 interface Props{
     from:Date;
@@ -71,6 +72,21 @@ export const columns:ColumnDef<TransactionHistoryRow>[] =[
                 {formattedDate}
             </div>
         },
+    },
+
+    {
+        accessorKey: "type",
+        header:({column}) =>(
+            <DataTableColumnHeader column={column} title='Type'/>
+        ),
+        cell:({row})=> (
+            <div className={cn("capitalize rounded-lg text-center p-2",
+                row.original.type === "income" && "bg-emerald-400/10 text-emerald-500",
+                row.original.type === "expense" && "bg-red-400/10 text-red-500"
+            )}>
+                {row.original.type}
+            </div>
+        ),
     },
 
 ];  

@@ -44,6 +44,35 @@ export const columns:ColumnDef<TransactionHistoryRow>[] =[
         ),
     },
 
+    {
+        accessorKey: "description",
+        header:({column}) =>(
+            <DataTableColumnHeader column={column} title='Description'/>
+        ),
+        cell:({row})=> (
+            <div className='capitalize'>
+                {row.original.description}
+            </div>
+        ),
+    },
+
+    {
+        accessorKey: "date",
+        header:"Date",
+        cell:({row})=> {
+            const date = new Date(row.original.date)
+            const formattedDate = date.toLocaleDateString("default",{
+                timeZone:"UTC",
+                year:"numeric",
+                month:"2-digit",
+                day:"2-digit"
+            });
+            return <div className='text-muted-foreground'>
+                {formattedDate}
+            </div>
+        },
+    },
+
 ];  
 
 function TransactionTable({from,to}:Props) {

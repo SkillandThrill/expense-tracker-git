@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils';
 import { DataTableFacetedFilter } from '@/components/datatable/FacetedFilters';
 import { DataTableViewOptions } from '@/components/datatable/ColumnToggle';
 import { Button } from '@/components/ui/button';
+import {download,generateCsv, mkConfig} from "export-to-csv"
 
 interface Props{
     from:Date;
@@ -32,7 +33,7 @@ type TransactionHistoryRow = GetTransactionHistoryResponseType[0]
 
 
 
-export const columns:ColumnDef<TransactionHistoryRow>[] =[
+ const columns:ColumnDef<TransactionHistoryRow>[] =[
     {
         accessorKey: "category",
         header:({column}) =>(
@@ -113,6 +114,12 @@ export const columns:ColumnDef<TransactionHistoryRow>[] =[
 
 ];  
 
+const csvConfig = mkConfig({
+    fieldSeparator:",",
+    decimalSeparator:".",
+    useKeysAsHeaders:true,
+})
+
 function TransactionTable({from,to}:Props) {
 
     const [sorting,setSorting] = useState<SortingState>([])
@@ -124,6 +131,11 @@ function TransactionTable({from,to}:Props) {
         queryFn: () => fetch(`/api/transactions-history?from=${DateToUTCDate(from)}&to=${DateToUTCDate(to)}`).then(res => res.json())
     })
 
+
+    const handleExportCSV = (data:any[]) =>{
+        const csv  = generateCsv(csvConfig)(data);
+        download(csvConfig)(csv);
+    }
     const table = useReactTable({
         data:history.data || emptyData,
         columns,

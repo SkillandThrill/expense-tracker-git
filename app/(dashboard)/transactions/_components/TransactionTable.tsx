@@ -2,7 +2,7 @@
 
 import { DateToUTCDate } from '@/lib/helpers';
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import {ColumnDef, flexRender,getCoreRowModel,getSortedRowModel,SortingState,useReactTable} from "@tanstack/react-table"
 import {
     Table,
@@ -123,6 +123,19 @@ function TransactionTable({from,to}:Props) {
         onSortingChange: setSorting,
         getSortedRowModel : getSortedRowModel(),
     })
+
+    const categoriesOptions = useMemo(() =>{
+        const categoriesMap = new Map();
+        history.data?.forEach(transaction =>{
+            categoriesMap.set(transaction.category,{
+                value: transaction.category,
+                label :`${transaction.categoryIcon} ${transaction.category}`
+            })
+        })
+
+        const uniqueCategories =  new Set(categoriesMap.values())
+        return Array.from(uniqueCategories)
+    },[history.data])
   return (
     <div className="w-full">
         <div className="flex flex-wrap items-end justify-between gap-2 py-4">

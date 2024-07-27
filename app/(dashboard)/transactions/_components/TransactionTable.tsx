@@ -18,6 +18,7 @@ import SkeletonWrapper from '@/components/SkeletonWrapper';
 import { DataTableColumnHeader } from '@/components/datatable/ColumnHeader';
 import { cn } from '@/lib/utils';
 import { DataTableFacetedFilter } from '@/components/datatable/FacetedFilters';
+import { DataTableViewOptions } from '@/components/datatable/ColumnToggle';
 
 interface Props{
     from:Date;
@@ -162,6 +163,9 @@ function TransactionTable({from,to}:Props) {
                         {label:"Expense" , value:"expense"},
                     ]} />
                 )}
+            </div>
+            <div className="flex flex-wrap gap-2">
+                <DataTableViewOptions table={table}/>
             </div>
         </div>
         <SkeletonWrapper isLoading={history.isFetching}>

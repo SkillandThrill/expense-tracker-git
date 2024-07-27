@@ -17,6 +17,7 @@ import { GetTransactionHistoryResponseType } from '@/app/api/transactions-histor
 import SkeletonWrapper from '@/components/SkeletonWrapper';
 import { DataTableColumnHeader } from '@/components/datatable/ColumnHeader';
 import { cn } from '@/lib/utils';
+import { DataTableFacetedFilter } from '@/components/datatable/FacetedFilters';
 
 interface Props{
     from:Date;
@@ -138,8 +139,13 @@ function TransactionTable({from,to}:Props) {
     },[history.data])
   return (
     <div className="w-full">
+        {/* <pre>{JSON.stringify(categoriesOptions,null,2)}</pre> */}
         <div className="flex flex-wrap items-end justify-between gap-2 py-4">
-            TODO: Filters
+            <div className='flex gap-2'>
+                {table.getColumn("category") && (
+                    <DataTableFacetedFilter title='Category' column={table.getColumn("category")} options={categoriesOptions} />
+                )}
+            </div>
         </div>
         <SkeletonWrapper isLoading={history.isFetching}>
             <Table>

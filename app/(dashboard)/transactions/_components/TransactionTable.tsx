@@ -3,7 +3,7 @@
 import { DateToUTCDate } from '@/lib/helpers';
 import { useQuery } from '@tanstack/react-query';
 import React, { useMemo, useState } from 'react'
-import {ColumnDef, ColumnFiltersState, flexRender,getCoreRowModel,getFilteredRowModel,getSortedRowModel,SortingState,useReactTable} from "@tanstack/react-table"
+import {ColumnDef, ColumnFiltersState, flexRender,getCoreRowModel,getFilteredRowModel,getPaginationRowModel,getSortedRowModel,SortingState,useReactTable} from "@tanstack/react-table"
 import {
     Table,
     TableBody,
@@ -19,6 +19,7 @@ import { DataTableColumnHeader } from '@/components/datatable/ColumnHeader';
 import { cn } from '@/lib/utils';
 import { DataTableFacetedFilter } from '@/components/datatable/FacetedFilters';
 import { DataTableViewOptions } from '@/components/datatable/ColumnToggle';
+import { Button } from '@/components/ui/button';
 
 interface Props{
     from:Date;
@@ -135,6 +136,7 @@ function TransactionTable({from,to}:Props) {
         onColumnFiltersChange:setColumnFilters,
         getSortedRowModel : getSortedRowModel(),
         getFilteredRowModel:getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
     })
 
     const categoriesOptions = useMemo(() =>{
@@ -169,6 +171,7 @@ function TransactionTable({from,to}:Props) {
             </div>
         </div>
         <SkeletonWrapper isLoading={history.isFetching}>
+        <div> 
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) =>(
@@ -212,6 +215,25 @@ function TransactionTable({from,to}:Props) {
                     )}
                 </TableBody>
             </Table>
+        </div>
+        <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
+      </div>
         </SkeletonWrapper>
     </div>
   )

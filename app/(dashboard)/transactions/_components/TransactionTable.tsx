@@ -23,6 +23,7 @@ import { Button } from '@/components/ui/button';
 import {download,generateCsv, mkConfig} from "export-to-csv"
 import { DownloadIcon, MoreHorizontal, TrashIcon } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import DeleteTransactionDialog from './DeleteTransactionDialog';
 
 interface Props{
     from:Date;

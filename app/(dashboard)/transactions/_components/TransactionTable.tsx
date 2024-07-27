@@ -83,6 +83,9 @@ export const columns:ColumnDef<TransactionHistoryRow>[] =[
         header:({column}) =>(
             <DataTableColumnHeader column={column} title='Type'/>
         ),
+        filterFn:(row,id,value)=>{
+            return value.includes(row.getValue(id))
+        },
         cell:({row})=> (
             <div className={cn("capitalize rounded-lg text-center p-2",
                 row.original.type === "income" && "bg-emerald-400/10 text-emerald-500",
@@ -152,6 +155,12 @@ function TransactionTable({from,to}:Props) {
             <div className='flex gap-2'>
                 {table.getColumn("category") && (
                     <DataTableFacetedFilter title='Category' column={table.getColumn("category")} options={categoriesOptions} />
+                )}
+                {table.getColumn("type") && (
+                    <DataTableFacetedFilter title='Type' column={table.getColumn("type")} options={[
+                        {label:"Income" , value:"income"},
+                        {label:"Expense" , value:"expense"},
+                    ]} />
                 )}
             </div>
         </div>

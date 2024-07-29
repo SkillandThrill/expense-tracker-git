@@ -55,27 +55,27 @@ export async function DeleteTransaction(id:string){
         //     }
         // }),
     
-        //update Year history
-        prisma.yearHistory.update({
-            where:{
-                month_Year_userId:{
-                    userId:user.id,
-                    month:transaction.date.getUTCMonth(),
-                    Year:transaction.date.getUTCFullYear(),
-                },
-            },
-            data:{
-                ...(transaction.type === "expense"  && {
-                    expense:{
-                        decrement:transaction.amount,
-                    },
-                }),
-                ...(transaction.type === "income"  && {
-                    income:{
-                        decrement:transaction.amount,
-                    },
-                }),
-            }
-        })
+        // //update Year history
+        // prisma.yearHistory.update({
+        //     where:{
+        //         month_Year_userId:{
+        //             userId:user.id,
+        //             month:transaction.date.getUTCMonth(),
+        //             Year:transaction.date.getUTCFullYear(),
+        //         },
+        //     },
+        //     data:{
+        //         ...(transaction.type === "expense"  && {
+        //             expense:{
+        //                 decrement:transaction.amount,
+        //             },
+        //         }),
+        //         ...(transaction.type === "income"  && {
+        //             income:{
+        //                 decrement:transaction.amount,
+        //             },
+        //         }),
+        //     }
+        // })
     ])
 }

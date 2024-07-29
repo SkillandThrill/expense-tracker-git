@@ -32,50 +32,50 @@ export async function DeleteTransaction(id:string){
         }),
 
         //update month history
-        // prisma.monthHistory.update({
-        //     where:{
-        //         day_month_Year_userId:{
-        //             userId:user.id,
-        //             day:transaction.date.getUTCDate(),
-        //             month:transaction.date.getUTCMonth(),
-        //             Year:transaction.date.getUTCFullYear(),
-        //         },
-        //     },
-        //     data:{
-        //         ...(transaction.type === "expense"  && {
-        //             expense:{
-        //                 decrement:transaction.amount,
-        //             },
-        //         }),
-        //         ...(transaction.type === "income"  && {
-        //             income:{
-        //                 decrement:transaction.amount,
-        //             },
-        //         }),
-        //     }
-        // }),
+        prisma.monthHistory.update({
+            where:{
+                day_month_Year_userId:{
+                    userId:user.id,
+                    day:transaction.date.getUTCDate(),
+                    month:transaction.date.getUTCMonth(),
+                    Year:transaction.date.getUTCFullYear(),
+                },
+            },
+            data:{
+                ...(transaction.type === "expense"  && {
+                    expense:{
+                        decrement:transaction.amount,
+                    },
+                }),
+                ...(transaction.type === "income"  && {
+                    income:{
+                        decrement:transaction.amount,
+                    },
+                }),
+            }
+        }),
     
-        // //update Year history
-        // prisma.yearHistory.update({
-        //     where:{
-        //         month_Year_userId:{
-        //             userId:user.id,
-        //             month:transaction.date.getUTCMonth(),
-        //             Year:transaction.date.getUTCFullYear(),
-        //         },
-        //     },
-        //     data:{
-        //         ...(transaction.type === "expense"  && {
-        //             expense:{
-        //                 decrement:transaction.amount,
-        //             },
-        //         }),
-        //         ...(transaction.type === "income"  && {
-        //             income:{
-        //                 decrement:transaction.amount,
-        //             },
-        //         }),
-        //     }
-        // })
+        //update Year history
+        prisma.yearHistory.update({
+            where:{
+                month_Year_userId:{
+                    userId:user.id,
+                    month:transaction.date.getUTCMonth(),
+                    Year:transaction.date.getUTCFullYear(),
+                },
+            },
+            data:{
+                ...(transaction.type === "expense"  && {
+                    expense:{
+                        decrement:transaction.amount,
+                    },
+                }),
+                ...(transaction.type === "income"  && {
+                    income:{
+                        decrement:transaction.amount,
+                    },
+                }),
+            }
+        })
     ])
 }

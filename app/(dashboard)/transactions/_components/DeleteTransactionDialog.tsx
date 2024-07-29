@@ -43,7 +43,7 @@ function DeleteTransactionDialog({open,setOpen,transactionId}:Props) {
                     Are you absolutely sure?
                 </AlertDialogTitle>
                 <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete your category
+                    This action cannot be undone. This will permanently delete your Transaction
                 </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
